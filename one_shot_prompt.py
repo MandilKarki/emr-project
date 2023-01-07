@@ -93,6 +93,7 @@ Here are 10 entities that may be present in an electronic medical record (EMR):
 import openai
 import configparser
 import re
+from config import CONFIG_FILE_PATH
 
 # emr_prompt = """
 # Please extract the following information from the following electronic medical record (EMR):
@@ -139,6 +140,7 @@ the entities extracted are -
 
 """
 
+
 def initialize_openai_client(config_file_path):
     # read the API key from the configuration file
     with open(config_file_path, "r") as config_file:
@@ -146,7 +148,13 @@ def initialize_openai_client(config_file_path):
         config.read_file(config_file)
         api_key = config["openai"]["api_key"]
 
-    openai.api_key = api_key  # set the API key
+    openai.api_key = api_key
+    api_key = openai.api_key# set the API key
+    return api_key
+
+
+api_key = initialize_openai_client(CONFIG_FILE_PATH)
+
 
 
 def generate_text_completion( emr_text: str):
@@ -156,7 +164,7 @@ def generate_text_completion( emr_text: str):
         prompt=emr_prompt+emr_text,
         max_tokens=1200,
         temperature=0.4,
-        api_key='''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''',
+        api_key=api_key,
         top_p=1,
         frequency_penalty=1,
         presence_penalty=1,

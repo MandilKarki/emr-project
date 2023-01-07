@@ -13,7 +13,7 @@ app = FastAPI()
 
 
 @app.post("/emr_extraction")
-def generate_text_completions(emr_text: str):
+def generate_text_completions(emr_text: str,):
     try:
         # call the one_shot_prompt function
         completion_text = generate_text_completion(emr_text)
